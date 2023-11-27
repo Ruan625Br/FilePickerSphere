@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">FilePickerSphere</string>
+
+    <string name="files">Files</string>
+    <string name="error">Error</string>
+    <string name="loading">Loading</string>
+
+    <plurals name="file_list_selected_count_format">
+        <item quantity="one">%1$,d selected</item>
+        <item quantity="other">%1$,d selected</item>
+    </plurals>
+    <string name="file_list_subtitle_separator">, </string>
+    <string name="empty">Empty</string>
+    <plurals name="file_list_subtitle_directory_count_format">
+        <item quantity="one">%1$,d folder</item>
+        <item quantity="other">%1$,d folders</item>
+    </plurals>
+    <plurals name="file_list_subtitle_file_count_format">
+        <item quantity="one">%1$,d file</item>
+        <item quantity="other">%1$,d files</item>
+    </plurals>
+    <string name="done">Done</string>
+</resources>
