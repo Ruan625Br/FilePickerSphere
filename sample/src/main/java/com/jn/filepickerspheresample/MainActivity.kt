@@ -13,6 +13,10 @@ import android.util.Log
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.materialswitch.MaterialSwitch
+import com.google.android.material.textfield.TextInputEditText
 import com.jn.filepickersphere.filelist.common.mime.MimeType
 import com.jn.filepickersphere.filepicker.FilePickerCallbacks
 import com.jn.filepickersphere.filepicker.FilePickerSphereManager
@@ -23,7 +27,16 @@ import com.jn.filepickersphere.models.PickOptions
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var btnPickerFiles: Button
+    private lateinit var btnPickerPhotos: Button
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var btnClearList: Button
+    private lateinit var textInputEditTextRootPath: TextInputEditText
+    private lateinit var textInputEditTextMaxSelection: TextInputEditText
+    private lateinit var switchLocalOnly: MaterialSwitch
+
+    private lateinit var adapter: PhotoAdapter
+    private val photoList = mutableListOf<PhotoModel>()
+
 
     private val requestPermissionsLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -35,23 +48,44 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        btnPickerFiles = findViewById(R.id.btn_pick_files)
+        btnPickerPhotos = findViewById(R.id.btn_pick_photos)
+        recyclerView = findViewById(R.id.recyclerView)
+        btnClearList = findViewById(R.id.btn_clear_list)
+        textInputEditTextRootPath = findViewById(R.id.text_input_root_path)
+        textInputEditTextMaxSelection = findViewById(R.id.text_input_max_selection)
+        switchLocalOnly = findViewById(R.id.switch_local_only)
 
-        if (checkPermission()) {
-            pickerFiles()
-        } else {
+        if (!checkPermission()) {
             requestPermissions()
         }
 
-        btnPickerFiles.setOnClickListener { pickerFiles() }
+        btnPickerPhotos.setOnClickListener { pickerFiles() }
+        btnClearList.setOnClickListener {
+            val itemCount = photoList.size
+            photoList.clear()
+            adapter.notifyItemRangeRemoved(0, itemCount)
+        }
+        setupRecyclerview()
     }
 
     private fun pickerFiles() {
+
+        val maxSelection = if (textInputEditTextMaxSelection.text.isNullOrBlank()){
+            null
+        } else{
+            textInputEditTextMaxSelection.text.toString().toInt()
+        }
+
+        val rootPath = if (textInputEditTextRootPath.text.isNullOrBlank()){
+            "/storage/emulated/0/"
+        } else{
+            textInputEditTextRootPath.text.toString()
+        }
         val options = PickOptions(
-            mimeType = listOf(MimeType.IMAGE_PNG, MimeType.IMAGE_JPEG, MimeType.DIRECTORY, MimeType("value herre")),
-            localOnly = false,
-            rootPath = "/storage/emulated/0/",
-            maxSelection = 8
+            mimeType = listOf(MimeType.IMAGE_PNG, MimeType.IMAGE_JPEG),
+            localOnly = switchLocalOnly.isChecked,
+            rootPath = rootPath,
+            maxSelection = maxSelection
         )
 
         FilePickerSphereManager(this, true).callbacks(object : FilePickerCallbacks {
@@ -67,9 +101,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onAllFilesSelected(files: List<FileModel>) {
-
+                files.forEach {
+                    photoList.add(PhotoModel(it))
+                }
+                adapter.notifyItemRangeInserted(photoList.size, files.size)
             }
-        }).container(R.id.fragment_container)
+        })
+            //.container(R.id.fragment_container)
             .model(FilePickerModel(options))
             .picker()
 
@@ -84,6 +122,12 @@ class MainActivity : AppCompatActivity() {
                  }
              }
          ).picker()*/
+    }
+
+    private fun setupRecyclerview(){
+        recyclerView.layoutManager = GridLayoutManager(this, 3)
+        adapter = PhotoAdapter(photoList, this)
+        recyclerView.adapter = adapter
     }
 
     private fun checkPermission(): Boolean {

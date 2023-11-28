@@ -4,20 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:padding="8dp">
 
-    <Button
-        android:id="@+id/btn_pick_files"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/max_selection"
+        android:layout_width="228dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/root_path">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_input_max_selection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/max_selection"
+            android:text="@string/_8"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/root_path"
+        android:layout_width="228dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_input_root_path"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/root_path"
+            android:text="@string/storage_emulated_0" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/switch_local_only"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pick Files"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"
+        android:text="@string/local_only"
+        app:layout_constraintStart_toEndOf="@id/root_path"
+        app:layout_constraintTop_toTopOf="@+id/root_path" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toBottomOf="@+id/max_selection"
+        android:text="@string/pick_photos">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container"
+
+        <Button
+            android:id="@+id/btn_pick_photos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/pick_photos"/>
+        <Button
+            android:id="@+id/btn_clear_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:text="@string/clear_list"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="350dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        tools:listitem="@layout/photo_item"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

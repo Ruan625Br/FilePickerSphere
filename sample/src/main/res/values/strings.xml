@@ -2,4 +2,11 @@
     <string name="app_name">FilePickerSphereSample</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="max_selection">Max selection</string>
+    <string name="_8">8</string>
+    <string name="root_path">Root path</string>
+    <string name="storage_emulated_0">/storage/emulated/0/</string>
+    <string name="local_only">Local only</string>
+    <string name="pick_photos">Pick photos</string>
+    <string name="clear_list">Clear list</string>
 </resources>
