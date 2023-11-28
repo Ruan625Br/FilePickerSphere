@@ -1,14 +1,11 @@
 package com.jn.filepickersphere.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +28,6 @@ import com.jn.filepickersphere.utils.Stateful
 import com.jn.filepickersphere.utils.Success
 import com.jn.filepickersphere.viewmodels.FileListViewModel
 import java.nio.file.Paths
-import kotlin.io.path.pathString
 
 
 class FilePickerBottomSheetFragment(
@@ -54,32 +50,20 @@ class FilePickerBottomSheetFragment(
             val rootPath = filePickerModel?.pickOptions?.rootPath ?: Constants.DEFAULT_PATH
 
             viewModel.currentPath?.let {
-                Log.i("Main", "Curent : $it Default: $rootPath")
-
-                if(it != Paths.get(rootPath)){
+                if (it != Paths.get(rootPath)) {
                     viewModel.navigateUp()
                 } else {
                     dismiss()
                 }
             }
-
-           /* viewModel.currentPath?.let { currentPath ->
-                Log.i("Main", "Curent : $currentPath Default: $rootPath")
-                if (rootPath != currentPath.pathString) {
-                    viewModel.navigateUp()
-                }  else {
-                    dismiss()
-                }
-            }*/
         }
     }
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            filePickerModel = arguments?.parcelable(FileListFragment.ARG_FILE_PICKER_MODEL)
+            filePickerModel = arguments?.parcelable(ARG_FILE_PICKER_MODEL)
         }
     }
 
@@ -217,7 +201,7 @@ class FilePickerBottomSheetFragment(
     }
 
     private fun updateFab() {
-        val isExtended = if (filePickerModel?.pickOptions?.maxSelection != null){
+        val isExtended = if (filePickerModel?.pickOptions?.maxSelection != null) {
             filePickerModel?.pickOptions?.maxSelection!! == viewModel.selectedFiles.size
         } else {
             true
@@ -237,7 +221,10 @@ class FilePickerBottomSheetFragment(
 
     private fun navigateTo(path: String) {
         val state = recyclerView.layoutManager!!.onSaveInstanceState()
-        viewModel.navigateTo(state!!, Paths.get(path))
+        val localOnly = filePickerModel?.pickOptions?.localOnly ?: false
+
+        if (!localOnly)
+            viewModel.navigateTo(state!!, Paths.get(path))
 
     }
 

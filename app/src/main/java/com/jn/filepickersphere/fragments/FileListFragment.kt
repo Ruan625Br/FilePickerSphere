@@ -227,7 +227,10 @@ class FileListFragment(
 
     private fun navigateTo(path: String) {
         val state = recyclerView.layoutManager!!.onSaveInstanceState()
-        viewModel.navigateTo(state!!, Paths.get(path))
+        val localOnly = filePickerModel?.pickOptions?.localOnly ?: false
+
+        if (!localOnly)
+            viewModel.navigateTo(state!!, Paths.get(path))
 
     }
 
