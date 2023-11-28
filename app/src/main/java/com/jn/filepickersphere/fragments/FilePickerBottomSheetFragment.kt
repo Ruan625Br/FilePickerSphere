@@ -1,19 +1,22 @@
 package com.jn.filepickersphere.fragments
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager.LayoutParams
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jn.filepickersphere.R
 import com.jn.filepickersphere.adapters.FileListAdapter
-import com.jn.filepickersphere.databinding.FragmentFilePickerDialogBinding
+import com.jn.filepickersphere.databinding.FragmentFileListBinding
 import com.jn.filepickersphere.extensions.getQuantityString
 import com.jn.filepickersphere.extensions.parcelable
 import com.jn.filepickersphere.filelist.FileItemSet
@@ -28,13 +31,14 @@ import com.jn.filepickersphere.utils.Stateful
 import com.jn.filepickersphere.utils.Success
 import com.jn.filepickersphere.viewmodels.FileListViewModel
 import java.nio.file.Paths
+import kotlin.io.path.pathString
 
 
-class FilePickerDialogFragment(
+class FilePickerBottomSheetFragment(
     private val filePickerCallbacks: FilePickerCallbacks
-) : DialogFragment(), FileListener {
+) : BottomSheetDialogFragment(), FileListener {
 
-    private var _binding: FragmentFilePickerDialogBinding? = null
+    private var _binding: FragmentFileListBinding? = null
     private val binding get() = _binding!!
 
     private var filePickerModel: FilePickerModel? = null
@@ -45,24 +49,44 @@ class FilePickerDialogFragment(
     private lateinit var recyclerView: RecyclerView
     private lateinit var topAppBar: MaterialToolbar
 
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            val rootPath = filePickerModel?.pickOptions?.rootPath ?: Constants.DEFAULT_PATH
+
+            viewModel.currentPath?.let {
+                Log.i("Main", "Curent : $it Default: $rootPath")
+
+                if(it != Paths.get(rootPath)){
+                    viewModel.navigateUp()
+                } else {
+                    dismiss()
+                }
+            }
+
+           /* viewModel.currentPath?.let { currentPath ->
+                Log.i("Main", "Curent : $currentPath Default: $rootPath")
+                if (rootPath != currentPath.pathString) {
+                    viewModel.navigateUp()
+                }  else {
+                    dismiss()
+                }
+            }*/
+        }
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            filePickerModel = arguments?.parcelable(ARG_FILE_PICKER_MODEL)
+            filePickerModel = arguments?.parcelable(FileListFragment.ARG_FILE_PICKER_MODEL)
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFilePickerDialogBinding.inflate(inflater, container, false)
-        val window = dialog?.window
-
-        // Defina a largura da janela como MATCH_PARENT
-        window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT // Ou MATCH_PARENT para altura também
-        )
+        _binding = FragmentFileListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -74,6 +98,11 @@ class FilePickerDialogFragment(
 
         (activity as AppCompatActivity).setSupportActionBar(topAppBar)
         viewModel = ViewModelProvider(this)[FileListViewModel::class.java]
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner, onBackPressedCallback
+        )
+
+        topAppBar.setNavigationOnClickListener { onBackPressedCallback.handleOnBackPressed() }
 
         setupRecyclerview()
         observeFileViewModel()
@@ -90,6 +119,7 @@ class FilePickerDialogFragment(
     }
 
     override fun selectFile(file: FileModel, selected: Boolean) {
+        filePickerCallbacks.onFileSelectionChanged(file, selected)
         viewModel.selectFile(file, selected)
     }
 
@@ -98,14 +128,12 @@ class FilePickerDialogFragment(
     }
 
     override fun openFile(file: FileModel) {
-        val pickDirectory = filePickerModel?.pickOptions?.pickDirectory ?: false
 
-        if (file.isDirectory && !pickDirectory) {
+        if (file.isDirectory) {
             navigateTo(file.path)
             filePickerCallbacks.onOpenFile(file)
         }
     }
-
 
     private fun observeFileViewModel() {
         viewModel.currentPathLiveData.observe(viewLifecycleOwner) { updateTopAppBar() }
@@ -177,7 +205,9 @@ class FilePickerDialogFragment(
     }
 
     private fun onSelectedFilesChanged(files: FileItemSet) {
+        filePickerCallbacks.onSelectedFilesChanged(files.toList())
         updateTopAppBar()
+        updateFab()
         if (::adapter.isInitialized) adapter.replaceSelectedFiles(files)
     }
 
@@ -186,18 +216,37 @@ class FilePickerDialogFragment(
         adapter.replaceList(files)
     }
 
+    private fun updateFab() {
+        val isExtended = if (filePickerModel?.pickOptions?.maxSelection != null){
+            filePickerModel?.pickOptions?.maxSelection!! == viewModel.selectedFiles.size
+        } else {
+            true
+        }
+
+        binding.fabDone.isExtended = isExtended
+        binding.fabDone.isClickable = isExtended
+
+        binding.fabDone.setOnClickListener {
+            if (isExtended) {
+                filePickerCallbacks.onAllFilesSelected(viewModel.selectedFiles.toList())
+                dismiss()
+            }
+        }
+
+    }
+
     private fun navigateTo(path: String) {
         val state = recyclerView.layoutManager!!.onSaveInstanceState()
-        //viewModel.navigateTo(state!!, Paths.get(path))
+        viewModel.navigateTo(state!!, Paths.get(path))
 
     }
 
     companion object {
-        const val TAG = "FilePickerDialogFragment"
+        const val TAG = "FilePickerBottomSheetFragment"
         const val ARG_FILE_PICKER_MODEL = "FilePickerModel"
 
         fun newInstance(filePickerModel: FilePickerModel, pickerCallbacks: FilePickerCallbacks) =
-            FilePickerDialogFragment(pickerCallbacks).apply {
+            FilePickerBottomSheetFragment(pickerCallbacks).apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_FILE_PICKER_MODEL, filePickerModel)
                 }

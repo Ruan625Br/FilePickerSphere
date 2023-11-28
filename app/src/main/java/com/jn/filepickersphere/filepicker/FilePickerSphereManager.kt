@@ -1,18 +1,17 @@
 package com.jn.filepickersphere.filepicker
 
 import android.content.Context
-import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.jn.filepickersphere.extensions.activity
 import com.jn.filepickersphere.fragments.FileListFragment
-import com.jn.filepickersphere.fragments.FilePickerDialogFragment
+import com.jn.filepickersphere.fragments.FilePickerBottomSheetFragment
 import com.jn.filepickersphere.models.FilePickerModel
 
 class FilePickerSphereManager(
     private val context: Context,
-    private val dialogViewMode: Boolean = true,
+    private val bottomSheetViewMode: Boolean = true,
     private val filePickerCallbacks: FilePickerCallbacks? = null,
     private val filePickerModel: FilePickerModel? = null,
     @IdRes
@@ -35,12 +34,9 @@ class FilePickerSphereManager(
         requireNotNull(filePickerCallbacks) { "FilePickerCallbacks must be set." }
         requireNotNull(filePickerModel) { "FilePickerModel must be set." }
 
-        if (dialogViewMode) {
-            val filePickerDialogFragment = FilePickerDialogFragment(filePickerCallbacks)
-            filePickerDialogFragment.arguments = Bundle().apply {
-                putParcelable(FilePickerDialogFragment.ARG_FILE_PICKER_MODEL, filePickerModel)
-            }
-            filePickerDialogFragment.show(findFragmentManager(), FilePickerDialogFragment.TAG)
+        if (bottomSheetViewMode) {
+            val filePickerDialogFragment = FilePickerBottomSheetFragment.newInstance(filePickerModel, filePickerCallbacks)
+            filePickerDialogFragment.show(findFragmentManager(), FilePickerBottomSheetFragment.TAG)
         } else {
             requireNotNull(containerViewId) { "ContainerViewId must be set." }
 
@@ -59,7 +55,7 @@ class FilePickerSphereManager(
 
     private fun copy(
         context: Context = this.context,
-        dialogViewMode: Boolean = this.dialogViewMode,
+        dialogViewMode: Boolean = this.bottomSheetViewMode,
         filePickerCallbacks: FilePickerCallbacks? = this.filePickerCallbacks,
         filePickerModel: FilePickerModel? = this.filePickerModel,
         @IdRes

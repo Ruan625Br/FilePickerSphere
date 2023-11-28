@@ -9,7 +9,6 @@ import kotlinx.parcelize.Parcelize
 /**
  * Represents options for file picking, specifying the criteria for selecting files or directories.
  *
- * @param pickDirectory Indicates whether the selection is intended for directories.
  * @param mimeType The MIME type(s) associated with the files to be selected.
  *                 It can be a single MIME type or a list of MIME types.
  * @param localOnly Indicates whether the selection is limited to local files only.
@@ -20,7 +19,6 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class PickOptions(
-    val pickDirectory: Boolean,
     val mimeType: List<MimeType>,
     val localOnly: Boolean,
     val rootPath: String = Constants.DEFAULT_PATH,

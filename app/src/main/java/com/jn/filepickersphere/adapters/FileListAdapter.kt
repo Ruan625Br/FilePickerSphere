@@ -142,15 +142,12 @@ class FileListAdapter(
         val mimeType = MimeTypeUtil.getMimeType(mPath = file.path)?.let { MimeType(it) }
 
         Log.i("FileListAdapter", "MimeTYpe: ${mimeType?.value} required: ${pickOptions.mimeType}")
-        return if (pickOptions.pickDirectory) {
-            file.isDirectory
-        } else {
-            mimeType?.let {
-                it in pickOptions.mimeType
-            } ?: false
-        }
-    }
 
+        return mimeType?.let {
+            it in pickOptions.mimeType
+        } ?: false
+
+    }
     fun replaceList(list: List<FileModel>) {
         super.replace(list, true)
         rebuildFilePositionMap()

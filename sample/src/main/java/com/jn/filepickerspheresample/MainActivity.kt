@@ -48,14 +48,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun pickerFiles() {
         val options = PickOptions(
-            pickDirectory = false,
-            mimeType = listOf(MimeType.IMAGE_PNG, MimeType.IMAGE_JPEG),
+            mimeType = listOf(MimeType.IMAGE_PNG, MimeType.IMAGE_JPEG, MimeType.DIRECTORY, MimeType("value herre")),
             localOnly = false,
             rootPath = "/storage/emulated/0/",
             maxSelection = 8
         )
 
-        FilePickerSphereManager(this, false).callbacks(object : FilePickerCallbacks {
+        FilePickerSphereManager(this, true).callbacks(object : FilePickerCallbacks {
             override fun onFileSelectionChanged(file: FileModel, selected: Boolean) {
                 Log.i("FilePickerSphere", "File clicked: ${file.name}\n Selected: $selected")
             }
@@ -68,6 +67,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onAllFilesSelected(files: List<FileModel>) {
+
             }
         }).container(R.id.fragment_container)
             .model(FilePickerModel(options))

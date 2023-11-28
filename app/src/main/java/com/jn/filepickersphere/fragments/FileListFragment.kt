@@ -1,6 +1,5 @@
 package com.jn.filepickersphere.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -53,6 +52,11 @@ class FileListFragment(
             viewModel.currentPath?.let { currentPath ->
                 if (rootPath != currentPath.pathString) {
                     viewModel.navigateUp()
+                } else {
+                    requireActivity().supportFragmentManager.popBackStack(
+                        TAG,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
                 }
             }
         }
@@ -89,7 +93,6 @@ class FileListFragment(
 
         setupRecyclerview()
         observeFileViewModel()
-        //updateFab()
 
     }
 
@@ -112,9 +115,8 @@ class FileListFragment(
     }
 
     override fun openFile(file: FileModel) {
-        val pickDirectory = filePickerModel?.pickOptions?.pickDirectory ?: false
 
-        if (file.isDirectory && !pickDirectory) {
+        if (file.isDirectory) {
             navigateTo(file.path)
             filePickerCallbacks?.onOpenFile(file)
         }
