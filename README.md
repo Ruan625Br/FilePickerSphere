@@ -1,4 +1,3 @@
-<p align="center"><img src="fastlane/metadata/android/en-US/images/icon.png" width="150"></p>
 <h1 align="center"><b>FilePickerSphere</b></h1><p align="center"><span><b>FilePickerSphere</b>, a customizable and modern file picker</span></p>
 
 <div align="center">
