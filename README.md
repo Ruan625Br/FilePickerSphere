@@ -41,8 +41,7 @@
 
 ---
 
-FilePickerSphere is a robust file management tool designed to streamline and enhance your interaction with documents, media, and various file formats. Built on the foundation of [FileManagerSphere](https://github.com/Ruan625Br/FileManagerSphere),
-it provides an improved experience in handling and selecting files to optimize your tasks related to documents and media.
+FilePickerSphere is a powerful file selection tool crafted to streamline and enhance your interaction with documents, media, and various file formats. Built on the foundation of [FileManagerSphere](https://github.com/Ruan625Br/FileManagerSphere), it focuses on simplifying the process of selecting files, optimizing your experience in managing and choosing documents and media files effortlessly.
 
 ---
 
