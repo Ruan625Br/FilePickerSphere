@@ -36,7 +36,6 @@
         <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="32%" alt="Screenshot 4" />
         <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="32%" alt="Screenshot 5" />
         <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="32%" alt="Screenshot 6" />
-        <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="32%" alt="Screenshot 7" />
     </div>
 </details>
 
