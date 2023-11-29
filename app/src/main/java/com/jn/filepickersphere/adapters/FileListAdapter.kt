@@ -16,12 +16,14 @@ import com.jn.filepickersphere.filelist.fileItemSetOf
 import com.jn.filepickersphere.models.FileModel
 import com.jn.filepickersphere.ui.CheckableItemBackground
 import com.jn.filepickersphere.filelist.common.mime.MimeTypeUtil
+import com.jn.filepickersphere.filepicker.style.FileItemStyle
 import com.jn.filepickersphere.models.PickOptions
 import com.jn.filepickersphere.utils.FileFormatUtils
 import com.jn.filepickersphere.utils.FileIcon
 
 class FileListAdapter(
-    private val listener: FileListener
+    private val listener: FileListener,
+    private val fileItemStyle: FileItemStyle
 ) : ListAdapter<FileModel, FileListAdapter.ViewHolder>(CALLBACK) {
 
 
@@ -37,7 +39,7 @@ class FileListAdapter(
         FileItemBinding.inflate(parent.context.layoutInflater, parent, false)
     ).apply {
         applyStyle(binding)
-        binding.itemFile.background = CheckableItemBackground.create(binding.itemFile.context)
+        binding.itemFile.background = CheckableItemBackground.create(binding.itemFile.context, fileItemStyle)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -57,7 +59,7 @@ class FileListAdapter(
             return
         }
 
-        FileIcon.loadIcon(file, binding, mimeType, context)
+        FileIcon.loadIcon(file, binding, mimeType, context, fileItemStyle)
 
         binding.fileTitle.text = file.name
         binding.fileSize.text = FileFormatUtils.formatFileSize(file.fileSize)

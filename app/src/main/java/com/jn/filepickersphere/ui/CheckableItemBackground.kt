@@ -10,13 +10,14 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.jn.filepickersphere.R
 import com.jn.filepickersphere.extensions.getColorByAttr
 import com.jn.filepickersphere.extensions.shortAnimTime
+import com.jn.filepickersphere.filepicker.style.FileItemStyle
 import com.jn.filepickersphere.utils.asColor
 import com.jn.filepickersphere.utils.withModulatedAlpha
 
 object CheckableItemBackground {
 
     @SuppressLint("RestrictedApi")
-    fun create(context: Context): Drawable {
+    fun create(context: Context, fileItemStyle: FileItemStyle): Drawable {
         val typedValue = TypedValue()
         val resolved = context.theme.resolveAttribute(
             com.google.android.material.R.attr.colorOnSecondary, typedValue, true
@@ -30,7 +31,7 @@ object CheckableItemBackground {
             setExitFadeDuration(shortAnimTime)
             val primaryColor =
                 context.getColorByAttr(com.google.android.material.R.attr.colorPrimaryContainer)
-            val checkedColor = primaryColor.asColor().withModulatedAlpha(0.28f).value
+            val checkedColor = primaryColor.asColor().withModulatedAlpha(fileItemStyle.fileSelectedOpacity).value
 
             val backgroundSelected =
                 DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.bg_card_normal)!!)

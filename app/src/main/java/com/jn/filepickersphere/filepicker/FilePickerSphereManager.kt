@@ -5,6 +5,7 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.jn.filepickersphere.extensions.activity
+import com.jn.filepickersphere.filepicker.style.FilePickerStyle
 import com.jn.filepickersphere.fragments.FileListFragment
 import com.jn.filepickersphere.fragments.FilePickerBottomSheetFragment
 import com.jn.filepickersphere.models.FilePickerModel
@@ -18,6 +19,8 @@ class FilePickerSphereManager(
     private val containerViewId: Int? = null
 ) {
 
+    private var style: FilePickerStyle = FilePickerStyle()
+
     fun callbacks(callbacks: FilePickerCallbacks): FilePickerSphereManager {
         return copy(filePickerCallbacks = callbacks)
     }
@@ -30,17 +33,22 @@ class FilePickerSphereManager(
         return copy(containerViewId = containerViewId)
     }
 
+    fun style(filePickerStyle: FilePickerStyle): FilePickerSphereManager {
+        style = filePickerStyle
+        return this
+    }
+
     fun picker() {
         requireNotNull(filePickerCallbacks) { "FilePickerCallbacks must be set." }
         requireNotNull(filePickerModel) { "FilePickerModel must be set." }
 
         if (bottomSheetViewMode) {
-            val filePickerDialogFragment = FilePickerBottomSheetFragment.newInstance(filePickerModel, filePickerCallbacks)
+            val filePickerDialogFragment = FilePickerBottomSheetFragment.newInstance(filePickerModel, style, filePickerCallbacks)
             filePickerDialogFragment.show(findFragmentManager(), FilePickerBottomSheetFragment.TAG)
         } else {
             requireNotNull(containerViewId) { "ContainerViewId must be set." }
 
-            val fileListFragment = FileListFragment.newInstance(filePickerModel, filePickerCallbacks)
+            val fileListFragment = FileListFragment.newInstance(filePickerModel, style, filePickerCallbacks)
             findFragmentManager().beginTransaction()
                 .replace(containerViewId, fileListFragment, FileListFragment.TAG)
                 .addToBackStack(FileListFragment.TAG)

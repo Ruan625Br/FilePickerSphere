@@ -16,10 +16,12 @@ import com.jn.filepickersphere.R
 import com.jn.filepickersphere.adapters.FileListAdapter
 import com.jn.filepickersphere.databinding.FragmentFileListBinding
 import com.jn.filepickersphere.extensions.getQuantityString
+import com.jn.filepickersphere.extensions.initializeTheme
 import com.jn.filepickersphere.extensions.parcelable
 import com.jn.filepickersphere.filelist.FileItemSet
 import com.jn.filepickersphere.filelist.FileListener
 import com.jn.filepickersphere.filepicker.FilePickerCallbacks
+import com.jn.filepickersphere.filepicker.style.FilePickerStyle
 import com.jn.filepickersphere.models.FileModel
 import com.jn.filepickersphere.models.FilePickerModel
 import com.jn.filepickersphere.utils.Constants
@@ -33,7 +35,8 @@ import kotlin.io.path.pathString
 
 
 class FileListFragment(
-    private val filePickerCallbacks: FilePickerCallbacks? = null
+    private val filePickerCallbacks: FilePickerCallbacks? = null,
+    private val filePickerStyle: FilePickerStyle
 ) : Fragment(), FileListener {
     private var _binding: FragmentFileListBinding? = null
     private val binding get() = _binding!!
@@ -68,6 +71,8 @@ class FileListFragment(
         arguments?.let {
             filePickerModel = arguments?.parcelable(ARG_FILE_PICKER_MODEL)
         }
+
+        initializeTheme(filePickerStyle)
     }
 
     override fun onCreateView(
@@ -133,7 +138,7 @@ class FileListFragment(
 
     private fun setupRecyclerview() {
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        adapter = FileListAdapter(this)
+        adapter = FileListAdapter(this, filePickerStyle.fileItemStyle)
         adapter.pickOptions = filePickerModel?.pickOptions
         recyclerView.adapter = adapter
 
@@ -239,8 +244,8 @@ class FileListFragment(
         const val ARG_FILE_PICKER_MODEL = "FilePickerModel"
         const val TAG = "FileListFragment"
 
-        fun newInstance(filePickerModel: FilePickerModel, pickerCallbacks: FilePickerCallbacks) =
-            FileListFragment(pickerCallbacks).apply {
+        fun newInstance(filePickerModel: FilePickerModel, style: FilePickerStyle, pickerCallbacks: FilePickerCallbacks) =
+            FileListFragment(pickerCallbacks, style).apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_FILE_PICKER_MODEL, filePickerModel)
                 }

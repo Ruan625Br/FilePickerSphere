@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menu_themes_items" >
+        <item>@string/pink_theme</item>
+        <item>@string/green_theme_light_mode</item>
+        <item>@string/green_theme_dark_mode</item>
+        <item>@string/blue_theme_light_mode</item>
+        <item>@string/blue_theme_dark_mode</item>
+        <item>@string/red_theme_light_mode</item>
+        <item>@string/red_theme_dark_mode</item>
+        <item>@string/dynamic_colors</item>
+    </string-array>
+</resources>
