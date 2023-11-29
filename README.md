@@ -26,13 +26,25 @@
 ## What is FilePickerSphere?
  
 <div align="start">
-    <img src="https://raw.githubusercontent.com/Ruan625Br/FileManagerSphere/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="32%" alt="Screenshot 1" />
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="32%" alt="Screenshot 1" />
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="32%" alt="Screenshot 2" />
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="32%" alt="Screenshot 3" />
 </div>
+
+<details>
+    <summary>View More Screenshots</summary>
+    <div align="center">
+        <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="32%" alt="Screenshot 4" />
+        <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="32%" alt="Screenshot 5" />
+        <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="32%" alt="Screenshot 6" />
+        <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="32%" alt="Screenshot 7" />
+    </div>
+</details>
 
 ---
 
-FilePickerSphere is an robust file management tool crafted to streamline and elevate your interaction with documents, media, and various file formats.
-Built on [FileMangerSphere](https://github.com/Ruan625Br/FileManagerSphere)
+FilePickerSphere is a robust file management tool designed to streamline and enhance your interaction with documents, media, and various file formats. Built on the foundation of [FileManagerSphere](https://github.com/Ruan625Br/FileManagerSphere),
+it provides an improved experience in handling and selecting files to optimize your tasks related to documents and media.
 
 ---
 
@@ -102,7 +114,7 @@ This method checks for necessary configurations and displays the file picker acc
 
 ```kotlin
 
-  // Define file picking options
+    // Define file picking options
     val options = PickOptions(
         mimeType = listOf(MimeType.IMAGE_PNG, MimeType.IMAGE_JPEG, MimeType.DIRECTORY, MimeType("value here")),
         localOnly = false,
@@ -110,7 +122,7 @@ This method checks for necessary configurations and displays the file picker acc
         maxSelection = 8
     )
 
- // Create and configure FilePickerSphereManager
+     // Create and configure FilePickerSphereManager
     FilePickerSphereManager(this, true).callbacks(object : FilePickerCallbacks {
         override fun onFileSelectionChanged(file: FileModel, selected: Boolean) {
             Log.i("FilePickerSphere", "File clicked: ${file.name}\n Selected: $selected")
