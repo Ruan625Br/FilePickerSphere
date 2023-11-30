@@ -1,4 +1,4 @@
-<h1 align="center"><b>FilePickerSphere</b></h1><p align="center"><span><b>FilePickerSphere</b>, a customizable and modern file picker</span></p>
+<h1 align="center"><b>FilePickerSphere</b></h1><p align="center"><span><b>FilePickerSphere</b>, a customizable and modern ffile selection library</span></p>
 
 <div align="center">
 
@@ -41,7 +41,8 @@
 
 ---
 
-FilePickerSphere is a powerful file selection tool crafted to streamline and enhance your interaction with documents, media, and various file formats. Built on the foundation of [FileManagerSphere](https://github.com/Ruan625Br/FileManagerSphere), it focuses on simplifying the process of selecting files, optimizing your experience in managing and choosing documents and media files effortlessly.
+FilePickerSphere is a powerful file selection library crafted to streamline and enhance your interaction with documents, media, and various file formats. Built on the foundation of [FileManagerSphere](https://github.com/Ruan625Br/FileManagerSphere), it focuses on simplifying the process of selecting files, optimizing your experience in managing and choosing documents and media files effortlessly.
+
 
 ---
 
