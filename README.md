@@ -1,4 +1,4 @@
-<h1 align="center"><b>FilePickerSphere - ⚠ Under development</b></h1><p align="center"><span><b>FilePickerSphere</b>, a customizable and modern file selection library</span></p>
+<h1 align="center"><b>FilePickerSphere</b></h1><p align="center"><span><b>FilePickerSphere</b>, a customizable and modern file selection library</span></p>
 
 <div align="center">
 
