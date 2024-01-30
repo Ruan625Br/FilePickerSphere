@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
+    id("maven-publish")
 
 }
 
@@ -55,4 +56,18 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
 
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.github.ruan625br"
+            artifactId = "filePickerSphere"
+            version = "1.0.0"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
