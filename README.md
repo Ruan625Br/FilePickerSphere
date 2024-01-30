@@ -57,6 +57,12 @@ FilePickerSphere is a powerful file selection library crafted to streamline and 
 
 ---
 
+## Integration
+
+```kotlin
+implementation("com.github.Ruan625Br:FilePickerSphere:1.0.0")
+```
+
 ## Usage
 
 To use `FilePickerSphereManager`, create an instance of the class by providing the necessary parameters. You can then customize its behavior using various builder methods before calling the `picker()` method to initiate the file picking process.
