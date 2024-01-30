@@ -1,4 +1,8 @@
-<h1 align="center"><b>FilePickerSphere</b></h1><p align="center"><span><b>FilePickerSphere</b>, a customizable and modern file picker</span></p>
+# Temporarily discontinued
+
+---
+
+<h1 align="center"><b>FilePickerSphere</b></h1><p align="center"><span><b>FilePickerSphere</b>, a customizable and modern file selection library</span></p>
 
 <div align="center">
 
@@ -36,14 +40,13 @@
         <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="32%" alt="Screenshot 4" />
         <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="32%" alt="Screenshot 5" />
         <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="32%" alt="Screenshot 6" />
-        <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="32%" alt="Screenshot 7" />
     </div>
 </details>
 
 ---
 
-FilePickerSphere is a robust file management tool designed to streamline and enhance your interaction with documents, media, and various file formats. Built on the foundation of [FileManagerSphere](https://github.com/Ruan625Br/FileManagerSphere),
-it provides an improved experience in handling and selecting files to optimize your tasks related to documents and media.
+FilePickerSphere is a powerful file selection library crafted to streamline and enhance your interaction with documents, media, and various file formats. Built on the foundation of [FileManagerSphere](https://github.com/Ruan625Br/FileManagerSphere), it focuses on simplifying the process of selecting files, optimizing your experience in managing and choosing documents and media files effortlessly.
+
 
 ---
 
