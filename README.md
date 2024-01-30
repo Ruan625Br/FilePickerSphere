@@ -1,6 +1,3 @@
-# Temporarily discontinued
-
----
 
 <h1 align="center"><b>FilePickerSphere</b></h1><p align="center"><span><b>FilePickerSphere</b>, a customizable and modern file selection library</span></p>
 
@@ -20,6 +17,7 @@
     <a href="https://ko-fi.com/juannascimento/">
         <img src="https://img.shields.io/badge/Ko--fi-F16061?color=cfbdff&style=for-the-badge&logo=ko-fi&logoColor=black" alt="Ko-Fi">
     </a>   
+    [![](https://jitpack.io/v/Ruan625Br/FilePickerSphere.svg)](https://jitpack.io/#Ruan625Br/FilePickerSphere)
 </div>
 
 
